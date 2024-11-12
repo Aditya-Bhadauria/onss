@@ -14,17 +14,15 @@ if(isset($_POST['login']))
     $query-> execute();
     $results=$query->fetchAll(PDO::FETCH_OBJ);
     if($query->rowCount() > 0)
-{
-foreach ($results as $result) {
-$_SESSION['ocasuid']=$result->ID;
-
-}
-$_SESSION['login']=$_POST['emailormobnum'];
-
-echo "<script type='text/javascript'> document.location ='dashboard.php'; </script>";
-} else{
-echo "<script>alert('Invalid Details');</script>";
-}
+    {
+        foreach ($results as $result) {
+            $_SESSION['ocasuid']=$result->ID;
+        }
+        $_SESSION['login']=$_POST['emailormobnum'];
+        echo "<script type='text/javascript'> document.location ='dashboard.php'; </script>";
+    } else {
+        echo "<script>alert('Invalid Details');</script>";
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -49,6 +47,50 @@ echo "<script>alert('Invalid Details');</script>";
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+    <style>
+        body {
+            background-image: url('your-image-path.jpg'); /* Add your background image here */
+            background-size: cover;
+            background-position: center;
+            color: white; /* Change text color to white for better contrast */
+        }
+
+        .bg-light {
+            background-color: #f8f9fa !important; /* Light color for container */
+        }
+
+        .btn-primary {
+            background-color: #ff5733 !important; /* Red color for buttons */
+            border-color: #ff5733;
+        }
+
+        .btn-primary:hover {
+            background-color: #c13b1b !important; /* Darker red for hover */
+            border-color: #c13b1b;
+        }
+
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.8); /* Slight transparency for form controls */
+            color: black; /* Text color inside input fields */
+        }
+
+        .form-control:focus {
+            background-color: #fff !important;
+            border-color: #ff5733 !important;
+        }
+
+        .text-primary {
+            color: #ff5733 !important; /* Red color for primary text */
+        }
+
+        h3 {
+            color: #ff5733 !important;
+        }
+
+        .spinner-border {
+            color: #ff5733;
+        }
+    </style>
 </head>
 
 <body>

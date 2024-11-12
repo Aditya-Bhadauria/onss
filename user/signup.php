@@ -53,7 +53,6 @@ echo "<script>alert('Email-id or Mobile Number is already exist. Please try agai
     
     <title>ONSS || Signup</title>
    
-
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -72,13 +71,46 @@ echo "<script>alert('Email-id or Mobile Number is already exist. Please try agai
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+
+    <style>
+        /* Set background image and red theme */
+        body {
+            background-image: url('path/to/your/image.jpg'); /* Replace with your image path */
+            background-size: cover;
+            background-position: center;
+            font-family: 'Heebo', sans-serif;
+        }
+        .container-fluid {
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background for the form */
+        }
+        .btn-primary {
+            background-color: #ff4d4d; /* Red button */
+            border-color: #ff4d4d;
+        }
+        .btn-primary:hover {
+            background-color: #e60000; /* Darker red on hover */
+            border-color: #e60000;
+        }
+        .text-primary {
+            color: #e60000 !important; /* Red text */
+        }
+        .form-control {
+            border-color: #ff4d4d;
+        }
+        .form-floating label {
+            color: #ff4d4d;
+        }
+        .navbar {
+            background-color: #ffcccc; /* Light red navbar */
+        }
+    </style>
 </head>
 
 <body>
     <div class="container-fluid position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
         <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <div class="spinner-border text-danger" style="width: 3rem; height: 3rem;" role="status">
                 <span class="sr-only">Loading...</span>
             </div>
         </div>
@@ -92,9 +124,9 @@ echo "<script>alert('Email-id or Mobile Number is already exist. Please try agai
                     <div class="bg-light rounded p-4 p-sm-5 my-4 mx-3">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                             <a href="index.html" class="">
-                                <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>ONSS</h3>
+                                <h3 class="text-danger"><i class="fa fa-hashtag me-2"></i>ONSS</h3>
                             </a>
-                            <h3>Sign Up</h3>
+                            <h3 class="text-danger">Sign Up</h3>
                         </div>
                         <form method="post">
                         <div class="form-floating mb-3">
@@ -115,8 +147,7 @@ echo "<script>alert('Email-id or Mobile Number is already exist. Please try agai
                             <label for="floatingPassword">Password</label>
                         </div>
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                           
-                            <a href="signin.php">Already Registered !!</a>
+                            <a href="signin.php" class="text-danger">Already Registered !!</a>
                         </div>
 
                         <button type="submit" class="btn btn-primary py-3 w-100 mb-4" name="submit">Sign Up</button>

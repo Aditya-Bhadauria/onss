@@ -4,26 +4,24 @@ error_reporting(0);
 include('includes/dbconnection.php');
 if (strlen($_SESSION['ocasuid']==0)) {
   header('location:logout.php');
-  } else{
-    if(isset($_POST['submit']))
-  {
+} else {
+  if(isset($_POST['submit'])) {
 
+    $subject=$_POST['subject'];
+    $notestitle=$_POST['notestitle'];
+    $notesdesc=$_POST['notesdesc'];
+    $eid=$_GET['editid'];
+    $sql="update tblnotes set Subject=:subject,NotesTitle=:notestitle,NotesDecription=:notesdesc where ID=:eid";
+    $query=$dbh->prepare($sql);
 
- $subject=$_POST['subject'];
- $notestitle=$_POST['notestitle'];
- $notesdesc=$_POST['notesdesc'];
-  $eid=$_GET['editid'];
-$sql="update tblnotes set Subject=:subject,NotesTitle=:notestitle,NotesDecription=:notesdesc where ID=:eid";
-$query=$dbh->prepare($sql);
-
-$query->bindParam(':subject',$subject,PDO::PARAM_STR);
-$query->bindParam(':notestitle',$notestitle,PDO::PARAM_STR);
-$query->bindParam(':notesdesc',$notesdesc,PDO::PARAM_STR);
-$query->bindParam(':eid',$eid,PDO::PARAM_STR);
- $query->execute();
-         echo '<script>alert("Notes has been updated")</script>';
-         echo "<script>window.location.href ='manage-notes.php'</script>";
-}
+    $query->bindParam(':subject',$subject,PDO::PARAM_STR);
+    $query->bindParam(':notestitle',$notestitle,PDO::PARAM_STR);
+    $query->bindParam(':notesdesc',$notesdesc,PDO::PARAM_STR);
+    $query->bindParam(':eid',$eid,PDO::PARAM_STR);
+    $query->execute();
+    echo '<script>alert("Notes have been updated")</script>';
+    echo "<script>window.location.href ='manage-notes.php'</script>";
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,104 +46,96 @@ $query->bindParam(':eid',$eid,PDO::PARAM_STR);
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+    
+    <!-- Custom Red Theme Styles -->
+    <style>
+        :root {
+            --primary-color: #d9534f; /* Shade of red */
+            --primary-color-dark: #c9302c; /* Darker shade for hover */
+            --text-color-light: #ffffff; /* Light text color */
+        }
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color-dark);
+            color: var(--text-color-light);
+        }
+        .btn-primary:hover {
+            background-color: var(--primary-color-dark);
+            border-color: var(--primary-color-dark);
+        }
+        h6, .form-label {
+            color: var(--primary-color);
+        }
+        a strong {
+            color: var(--primary-color);
+        }
+    </style>
 </head>
 
 <body>
     <div class="container-fluid position-relative bg-white d-flex p-0">
         
-<?php include_once('includes/sidebar.php');?>
-
+        <?php include_once('includes/sidebar.php');?>
 
         <!-- Content Start -->
         <div class="content">
          <?php include_once('includes/header.php');?>
-
 
             <!-- Form Start -->
             <div class="container-fluid pt-4 px-4">
                 <div class="row g-4">
                     <div class="col-sm-12 col-xl-6">
                         <div class="bg-light rounded h-100 p-4">
-                            <h6 class="mb-4">Update Notes</h6>
+                            <h6 class="mb-4" style="color: var(--primary-color);">Update Notes</h6>
                             <form method="post">
                                 <?php
                                 $eid=$_GET['editid'];
-$sql="SELECT * from tblnotes where tblnotes.ID=:eid";
-$query = $dbh -> prepare($sql);
-$query->bindParam(':eid',$eid,PDO::PARAM_STR);
-$query->execute();
-$results=$query->fetchAll(PDO::FETCH_OBJ);
+                                $sql="SELECT * from tblnotes where tblnotes.ID=:eid";
+                                $query = $dbh->prepare($sql);
+                                $query->bindParam(':eid',$eid,PDO::PARAM_STR);
+                                $query->execute();
+                                $results=$query->fetchAll(PDO::FETCH_OBJ);
 
-$cnt=1;
-if($query->rowCount() > 0)
-{
-foreach($results as $row)
-{               ?>
+                                if($query->rowCount() > 0) {
+                                    foreach($results as $row) {
+                                ?>
                                 
-
-                                <br />
                                 <div class="mb-3">
                                     <label for="exampleInputEmail2" class="form-label">Subject</label>
-                                   
-                                    <input type="text" class="form-control"  name="subject" value="<?php  echo htmlentities($row->Subject);?>" required='true'>
+                                    <input type="text" class="form-control" name="subject" value="<?php echo htmlentities($row->Subject); ?>" required='true'>
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputEmail2" class="form-label">Notes Title</label>
-                                    <input type="text" class="form-control"  name="notestitle" value="<?php  echo htmlentities($row->NotesTitle);?>" required='true'>
-
-                                    </select>
+                                    <input type="text" class="form-control" name="notestitle" value="<?php echo htmlentities($row->NotesTitle); ?>" required='true'>
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputEmail2" class="form-label">Notes Description</label>
-                                    <textarea class="form-control"  name="notesdesc" value="" required='true'><?php  echo htmlentities($row->NotesDecription);?></textarea>
+                                    <textarea class="form-control" name="notesdesc" required='true'><?php echo htmlentities($row->NotesDecription); ?></textarea>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail2" class="form-label">View File1</label>
-                                   <a href="folder1/<?php echo $row->File1;?>"  target="_blank"> <strong style="color: red">View</strong></a> |
-<a href="changefile1.php?editid=<?php echo $row->ID;?>" > &nbsp;<strong style="color: red" target="_blank">Edit</strong></a>
 
-                                </div>
-                                 <?php if($row->File2==""){ ?>
-<div class="mb-3">
-                                    <label for="exampleInputEmail2" class="form-label">View File2</label>
-                                    <strong style="color: red">File is not available</strong>
-                                   
-                                </div>
-                                    <?php } else{?>
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail2" class="form-label">View File2</label>
-                                    <a href="folder2/<?php echo $row->File2;?>" target="_blank"> <strong style="color: red">View</strong></a> |
-<a href="changefile2.php?editid=<?php echo $row->ID;?>" > &nbsp;<strong style="color: red" target="_blank">Edit</strong></a>
-                                   
-                                </div><?php } ?>
-                                 <?php if($row->File3==""){ ?>
-<div class="mb-3">
-                                    <label for="exampleInputEmail2" class="form-label">View File3</label>
-                                    <strong style="color: red">File is not available</strong>
-                                   
-                                </div>
-                                    <?php } else{?>
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail2" class="form-label">View File3</label>
-                                    <a href="folder3/<?php echo $row->File3;?>"  target="_blank"> <strong style="color: red">View</strong></a> |
-<a href="changefile3.php?editid=<?php echo $row->ID;?>" target="_blank"> &nbsp;<strong style="color: red">Edit</strong></a>
-                                   
-                                </div><?php } ?>
-                                <?php if($row->File3==""){ ?>
-<div class="mb-3">
-                                    <label for="exampleInputEmail2" class="form-label">View File4</label>
-                                    <strong style="color: red">File is not available</strong>
-                                   
-                                </div>
-                                    <?php } else{?>
-                                <div class="mb-3">
-                                    <label for="exampleInputEmail2" class="form-label">View File4</label>
-                                    <a href="folder4/<?php echo $row->File4;?>"target="_blank"> <strong style="color: red">View</strong></a> |
-<a href="changefile4.php?editid=<?php echo $row->ID;?>" target="_blank"> &nbsp;<strong style="color: red">Edit</strong></a>
-                                   
-                                </div><?php } ?>
-                                <?php $cnt=$cnt+1;}} ?>
-                                <button type="submit" name="submit" class="btn btn-primary">Update</button>
+                                <?php for ($i = 1; $i <= 4; $i++) {
+                                    $fileField = "File$i";
+                                    if ($row->$fileField == "") { ?>
+                                        <div class="mb-3">
+                                            <label class="form-label">View File<?php echo $i; ?></label>
+                                            <strong style="color: var(--primary-color);">File is not available</strong>
+                                        </div>
+                                    <?php } else { ?>
+                                        <div class="mb-3">
+                                            <label class="form-label">View File<?php echo $i; ?></label>
+                                            <a href="folder<?php echo $i; ?>/<?php echo $row->$fileField; ?>" target="_blank">
+                                                <strong style="color: var(--primary-color);">View</strong>
+                                            </a> |
+                                            <a href="changefile<?php echo $i; ?>.php?editid=<?php echo $row->ID; ?>">
+                                                <strong style="color: var(--primary-color);">Edit</strong>
+                                            </a>
+                                        </div>
+                                    <?php }
+                                } ?>
+                                
+                                <button type="submit" name="submit" class="btn btn-primary" style="background-color: var(--primary-color); border-color: var(--primary-color-dark);">Update</button>
+                                
+                                <?php } } ?>
                             </form>
                         </div>
                     </div>
@@ -153,13 +143,11 @@ foreach($results as $row)
             </div>
             <!-- Form End -->
 
-
-             <?php include_once('includes/footer.php');?>
+             
         </div>
         <!-- Content End -->
 
-
-       <?php include_once('includes/back-totop.php');?>
+       
     </div>
 
     <!-- JavaScript Libraries -->
@@ -176,4 +164,5 @@ foreach($results as $row)
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
 </body>
-</html><?php }  ?>
+</html>
+<?php } ?>

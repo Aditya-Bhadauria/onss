@@ -116,12 +116,12 @@ foreach($results as $row)
             <!-- Form End -->
 
 
-             <?php include_once('includes/footer.php');?>
+            
         </div>
         <!-- Content End -->
 
 
-       <?php include_once('includes/back-totop.php');?>
+       
     </div>
 
     <!-- JavaScript Libraries -->
